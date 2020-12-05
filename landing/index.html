@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Term Project</title>
+    
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome Library -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="css/templatemo-style.css">                                   <!-- Main Stylesheet -->
+
+    </head>
+
+      <body>
+        
+        <div class="container-fluid" id="main">
+
+            <!-- First Page -->
+            <section class="parallax-window tm-section tm-section-home" id="home" data-parallax="scroll" data-image-src="img/first.jpg">
+                <div class="tm-page-content-width tm-padding-b">
+                    <div class="text-center tm-site-title-wrap">
+                        <h1 class="tm-site-title"><img src="img/logo.png"</h1>
+                        <p style="color: white"> Improve your typing speed</p>
+                        <button class="btn btn-secondary btn-lg" type="button"><a href="/home/anton/Documents/ryerson/530/project/login/index.html">Login</a></button>
+                        <button class="btn btn-secondary btn-lg" type="button"><a href="/home/anton/Documents/ryerson/530/project/register/index.html">Register</a></button>
+                    </div>           
+                </div>
+
+            </section>
+           
+
+
+
+            <!-- Second Page -->
+            <section class="parallax-window tm-section tm-section-services" id="services" data-parallax="scroll" data-image-src="img/second.jpg">
+                <div class="tm-page-content-width">
+                    <div class="tm-translucent-white-bg tm-content-box tm-content-box-right tm-textbox-full-height">
+                        <div class="tm-textbox tm-white-bg">
+                        <h2 class="tm-green-text tm-section-title">Benefits of Using Our Platform</h2>
+                         <p style="color: white"> &emsp;These days, typing can seem like it is not such an important skill as it once was. For example, we are becoming increasingly used to talking to our machines with the advances being made by Google Home, Alexa, Cortana, and Siri.
+But typing remains a fundamental skill, and it is still one of the most important computer skills you can learn. Learning to type fast and accurately will help you in many ways in life, and it should be considered an essential skill for anyone who sees themselves working with a computer in some capacity (which is most people!).
+With our platform, you can double your typing speed with just a bit of consistent practice. If you want to learn more about our platform, check out our About page!
+                         </p>
+                        <button class="btn btn-secondary btn-lg" type="button"><a href="/home/anton/Documents/ryerson/530/project/about/index.html">About</a></button>
+                    </div>
+
+                    </div>                    
+                </div>                
+            </section>
+           
+            <!-- Third Page -->
+            <section class="parallax-window tm-section tm-section-contact" id="contact" data-parallax="scroll" data-image-src="img/third.jpg">
+                <div class="tm-page-content-width">
+                    <div class="tm-translucent-white-bg tm-textbox tm-content-box tm-textbox-full-height">
+                        <h2 class="tm-section-title tm-red-text">Contant the Developer</h2>
+                        <p style="color: white">
+                                If you have suggestions or want to contribute to the codebase, feel free to contact the developer!
+                       </p>
+                        <button class="btn btn-secondary btn-lg" type="button"><a href="/home/anton/Documents/ryerson/530/project/contact/index.html">Contact</a></button>
+                        </div>  
+                    </div>
+                </div>
+                <div class="tm-copyright-div">
+                    <p class="tm-copyright-text"> ANTON SUPRUN - CPS530 - FALL<span class="tm-current-year">2020</span></p> 
+                </div>                
+            </section>
+            
+
+            </div>
+            
+            <!-- load JS files -->
+            <script src="js/jquery-1.11.3.min.js"></script>         <!-- https://jquery.com/download/ -->
+            <script src="js/isotope.pkgd.min.js"></script>          <!-- https://isotope.metafizzy.co/ -->
+            <script src="js/imagesloaded.pkgd.min.js"></script>     <!-- https://imagesloaded.desandro.com/ --> 
+            <script src="js/jquery.magnific-popup.min.js"></script> <!-- http://dimsemenov.com/plugins/magnific-popup/ -->
+            <script src="js/parallax.min.js"></script>
+            <script>     
+                $(document).ready(function () {
+
+                // Smooth scrolling and link checking
+
+                $('a[href*="#"]')
+                  .not('[href="#"]')
+                  .not('[href="#0"]')
+                  .click(function(event) {
+                    if (
+                      location.pathname.replace(/^\
+                      && 
+                      location.hostname == this.hostname
+                    ) {
+
+                      var target = $(this.hash);
+                      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                      if (target.length) {
+                        event.preventDefault();
+                        $('html, body').animate({
+                          scrollTop: target.offset().top
+                        }, 600, function() {
+                          var $target = $(target);
+                          $target.focus();
+                          if ($target.is(":focus")) { 
+                            return false;
+                          } else {
+                            $target.attr('tabindex','-1'); 
+                            $target.focus(); 
+                          };
+                        });
+                      }
+                    }
+                  });
+            });
+    </script>   
+</body>
+</html>
