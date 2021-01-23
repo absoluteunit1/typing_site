@@ -1,9 +1,9 @@
 var text1 = ["Hello,", "this", "is", "my", "final", "project", "for", "CPS530.", "At", "this", "stage", "it", "doesn't", "fully", "work", "but", "hopefully", "it", "will", "by", "December", "7th.", "The", "idea", "is", "that", "the", "background", "of", "each", "letter", "changes", "to", "either", "pink", "if", "the", "user", "typed", "a", "correct", "letter;", "red", "if", "the", "user", "typed", "an", "incorrect", "letter."]
 var text2 = ["Hello,", "this", "is", "my", "test", "for", "CPS530.", "At", "this", "stage", "it", "doesn't", "fully", "work", "but", "hopefully", "it", "will", "by", "December", "7th.", "The", "idea", "is", "that", "the", "background", "of", "each", "letter", "changes", "to", "either", "pink", "if", "the", "user", "typed", "a", "correct", "letter;", "red", "if", "the", "user", "typed", "an", "incorrect", "letter."]
 
-function addWordsToLine(word) {
+addWordsToLine = (word) => {
 	var lines = document.getElementsByTagName("h3");
-	var line  = lines[lines.length - 1]
+	var line  = lines[lines.length - 1];
 	var wordWrapper = document.createElement("div");
 	wordWrapper.className = "wordwrap";
 	for (let i = 0; i < word.length; i++) {
@@ -16,8 +16,7 @@ function addWordsToLine(word) {
 	line.innerHTML += '<div class="wordwrap"><span> </span></div>';
 }
 
-
-function addWords(arr) {
+addWords = (arr) => {
 	var i = 0;
 	var line = document.createElement("h3");
 	line.id = "parent";
@@ -30,24 +29,10 @@ function addWords(arr) {
 
 }
 
-function clearWords() {
-    document.getElementById("wordswrap").innerHTML = "";
-}
-
-function cursorBackground(cursor) {
-    cursor.id = "cursor";
-}
-
-function correct(cursor) {
-    cursor.id = "correct";
-}
-
-function incorrect(cursor) {
-    cursor.id = "incorrect"
-}
-
-
-
+clearWords = () => document.getElementById("wordswrap").innerHTML = "";
+cursorBackground = (cursor) => cursor.id = "cursor";
+correct = (cursor) => cursor.id = "correct";
+incorrect = (cursor) => cursor.id = "incorrect";
 
 
 addWords(text1);
@@ -83,6 +68,9 @@ cursorBackground(cursor);
 
 
 document.addEventListener("keydown", function(event) {
+    
+    // Resets the previously pressed key color
+    // temp.style.backgroundColor="#232946";
     var key = event.key;
 
     var keyboardKey = document.getElementById( (words[word_count].childNodes[letter_count].innerText).toLowerCase());
@@ -110,7 +98,6 @@ document.addEventListener("keydown", function(event) {
     cursor = document.getElementById("parent").getElementsByClassName("wordwrap")[word_count].getElementsByTagName("span")[letter_count];
     console.log(cursor);
     cursorBackground(cursor);
-
     
 });
 
