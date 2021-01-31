@@ -87,8 +87,8 @@ h3 {
 
 
 #wordswrap {
-	height: 250px;
-	width: 900px;
+	height: 450px;
+	width: 1085px;
 	margin: 100px auto;
     margin-bottom: 25px;
 	border: 0.2px solid #b8c1ec;
@@ -113,8 +113,8 @@ span {
 
 
 .keyboard-base {
-    max-width: 1085px;
     padding: 20px;
+    max-width: 1050px;
     margin: auto;
     background-color: #232946;
     border-radius: 10px;
