@@ -1,6 +1,9 @@
-var text1 = ["Hello,", "this", "is", "my", "final", "project", "for", "CPS530.", "At", "this", "stage", "it", "doesn't", "fully", "work", "but", "hopefully", "it", "will", "by", "December", "7th.", "The", "idea", "is", "that", "the", "background", "of", "each", "letter", "changes", "to", "either", "pink", "if", "the", "user", "typed", "a", "correct", "letter;", "red", "if", "the", "user", "typed", "an", "incorrect", "letter."]
-var text2 = ["Hello,", "this", "is", "my", "test", "for", "CPS530.", "At", "this", "stage", "it", "doesn't", "fully", "work", "but", "hopefully", "it", "will", "by", "December", "7th.", "The", "idea", "is", "that", "the", "background", "of", "each", "letter", "changes", "to", "either", "pink", "if", "the", "user", "typed", "a", "correct", "letter;", "red", "if", "the", "user", "typed", "an", "incorrect", "letter."]
+var text2 = ["Hello,", "this", "is", "my", "test", "for", "my","typing","game."]
+var text3 = ["This", "is", "my", "second", "text", "for", "my", "typing", "game."]
 
+// LOCAL STORAGE
+
+averageWordsPerMinute = window.localStorage;
 
 // FUNCTION DEFINITIONS
 
@@ -130,6 +133,9 @@ returnCursor = (wordCount, letterCount) => {
         return document.getElementById("parent").getElementsByClassName("wordwrap")[wordCount].getElementsByTagName("span")[letterCount];
     }
 
+loadText = () => {
+    // Takes an array of text and loads it into the textbox area.
+}
 
 clearWords = () => document.getElementById("wordswrap").innerHTML = "";
 cursorBackground = (cursor) => cursor.id = "cursor";
@@ -213,6 +219,12 @@ textWrapper.addEventListener("click", function(event) {
                 // If the previous word was the last word in the text, clear the text
                 // todo: add a wpm calculator and show the wpm after the words were typed
                 clearWords();
+                removeKeyHighlight(prevLetter);
+                timesTextWasAdded = 0;
+                text2 = text3;
+                wordCount = 0;
+                textWrapper.dispatchEvent(new Event("click"));
+                return;
             }
             currWordLength = words[wordCount].childElementCount;
                 
