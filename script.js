@@ -1,4 +1,4 @@
-var text2 = ["Hello,", "this", "is", "my", "test", "for", "my","typing","game."]
+var text2 = ["Gello, check if master", "it's", "is", "my", "test", "for", "my","typing","game."]
 var text3 = ["This", "is", "my", "second", "text", "for", "my", "typing", "game."]
 
 // LOCAL STORAGE
@@ -187,7 +187,12 @@ textWrapper.addEventListener("click", function(event) {
     document.addEventListener("keydown", function(event) {
         
         var prevLetter = currentLetter;
-        // temp.style.backgroundColor="#232946";
+
+        // Check if the pressed key is Caps Lock; don't move cursor (stop execution of the function)
+        if (event.key == "CapsLock") {
+            return;
+        }
+        // Check if the pressed key is Shift; if so, wait for another key
         if (event.key == "Shift"){
             document.addEventListener("keydown", function(event) {
                 var pressedKey = event.key;
