@@ -1,4 +1,4 @@
-var text2 = ["Gello, check if master", "it's", "is", "my", "test", "for", "my","typing","game."]
+var text2 = ["Hello", "this", "is", "my", "test", "for", "my","typing","game."]
 var text3 = ["This", "is", "my", "second", "text", "for", "my", "typing", "game."]
 
 // LOCAL STORAGE
@@ -138,9 +138,14 @@ loadText = () => {
 }
 
 clearWords = () => document.getElementById("wordswrap").innerHTML = "";
+
+
+//Cursor Functions for changing the cursor background
+
 cursorBackground = (cursor) => cursor.id = "cursor";
 correct = (cursor) => cursor.id = "correct";
 incorrect = (cursor) => cursor.id = "incorrect";
+clearBackground = (cursor) => cursor.id = "clear";
 
 
 //EVENT LISTENERS
@@ -205,7 +210,47 @@ textWrapper.addEventListener("click", function(event) {
         if (pressedKey == undefined ){
             return;
         }
-        
+
+        //Check if backspace is pressed and we are on the first letter of the first word
+        // if (pressedKey == "BackSpa
+        if (pressedKey == "Backspace") {
+            if (letterCount == 0 && wordCount == 0){
+                return;
+            }else if(letterCount == 0 && wordCount != 0){
+                removeKeyHighlight(currentLetter);
+                clearBackground(cursor);
+                wordCount = wordCount - 1;
+                letterCount = prevLetterCount;
+                console.log(letterCount);
+                cursor = returnCursor(wordCount, letterCount);
+                console.log(cursor);
+                cursorBackground(cursor);
+                console.log("First letter of new word backspace");
+                console.log("LC:", letterCount);
+                console.log("WC:", wordCount);
+                currentLetter = words[wordCount].childNodes[letterCount].innerText; 
+                highlightKeyboardKey(currentLetter);
+                return;
+            }else{
+                removeKeyHighlight(currentLetter);
+                clearBackground(cursor);
+                
+                letterCount = letterCount - 1;
+                console.log("Middle of word")
+                console.log("LC:", letterCount);
+                console.log("WC:", wordCount);
+                
+                cursor = returnCursor(wordCount, letterCount);
+                cursorBackground(cursor);
+ 
+                currentLetter = words[wordCount].childNodes[letterCount].innerText; 
+                highlightKeyboardKey(currentLetter);
+                return;
+            }
+        }
+        console.log("Without backspace");
+        console.log("LC:", letterCount);
+        console.log("WC:", wordCount, "\n");
         // Check if the pressed key matches the character in the text
         // If match: change character background to green, move to next character in text
         // else: change character background to red, move to next character in text

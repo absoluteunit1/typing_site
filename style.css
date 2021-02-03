@@ -195,6 +195,10 @@ span {
     background: rgba(255,0,0,0.3);
 }
 
+#clear {
+    background: #232946
+}
+
 /* Responsiveness */
 
 @media only screen and (max-width:1080px) {
