@@ -176,10 +176,6 @@ textWrapper.addEventListener("click", function(event) {
     var correctCount = 0;
     var incorrectCount = 0;
 
-    var totalWords = document.getElementById("parent").childNodes.length;
-    var wordLength = words[wordCount].childNodes.length;
-    var currWordLength = words[wordCount].childElementCount;
-    
     //Cursor
     var cursor = returnCursor(wordCount, letterCount);
     cursorBackground(cursor)
@@ -190,9 +186,9 @@ textWrapper.addEventListener("click", function(event) {
 
     // Event Listener for typing
     document.addEventListener("keydown", function(event) {
-        
-        var prevLetter = currentLetter;
-
+        var currWordLength = words[wordCount].childElementCount;
+        var prevLetter = currentLetter; 
+        var totalWords = document.getElementById("parent").childNodes.length;
         // Check if the pressed key is Caps Lock; don't move cursor (stop execution of the function)
         if (event.key == "CapsLock") {
             return;
@@ -212,22 +208,21 @@ textWrapper.addEventListener("click", function(event) {
         }
 
         //Check if backspace is pressed and we are on the first letter of the first word
-        // if (pressedKey == "BackSpa
+
         if (pressedKey == "Backspace") {
             if (letterCount == 0 && wordCount == 0){
                 return;
-            }else if(letterCount == 0 && wordCount != 0){
+            }else if(letterCount == 0){
                 removeKeyHighlight(currentLetter);
                 clearBackground(cursor);
+
+
                 wordCount = wordCount - 1;
-                letterCount = prevLetterCount;
-                console.log(letterCount);
-                cursor = returnCursor(wordCount, letterCount);
-                console.log(cursor);
+                currWordLength = words[wordCount].childElementCount;
+                letterCount = currWordLength - 1;
+                cursor = returnCursor(wordCount, letterCount); 
                 cursorBackground(cursor);
-                console.log("First letter of new word backspace");
-                console.log("LC:", letterCount);
-                console.log("WC:", wordCount);
+                            
                 currentLetter = words[wordCount].childNodes[letterCount].innerText; 
                 highlightKeyboardKey(currentLetter);
                 return;
@@ -236,9 +231,6 @@ textWrapper.addEventListener("click", function(event) {
                 clearBackground(cursor);
                 
                 letterCount = letterCount - 1;
-                console.log("Middle of word")
-                console.log("LC:", letterCount);
-                console.log("WC:", wordCount);
                 
                 cursor = returnCursor(wordCount, letterCount);
                 cursorBackground(cursor);
@@ -248,9 +240,6 @@ textWrapper.addEventListener("click", function(event) {
                 return;
             }
         }
-        console.log("Without backspace");
-        console.log("LC:", letterCount);
-        console.log("WC:", wordCount, "\n");
         // Check if the pressed key matches the character in the text
         // If match: change character background to green, move to next character in text
         // else: change character background to red, move to next character in text
@@ -268,12 +257,16 @@ textWrapper.addEventListener("click", function(event) {
             if (wordCount == totalWords) {
                 // If the previous word was the last word in the text, clear the text
                 // todo: add a wpm calculator and show the wpm after the words were typed
+                // RESET THE TEXT AND ALL THE VARIABLES
                 clearWords();
                 removeKeyHighlight(prevLetter);
-                timesTextWasAdded = 0;
-                text2 = text3;
                 wordCount = 0;
-                textWrapper.dispatchEvent(new Event("click"));
+                addWords(text3);
+                words = document.getElementById("parent").children;
+                currentLetter = words[wordCount].childNodes[letterCount].innerHTML;
+                cursor = returnCursor(wordCount, letterCount); 
+                highlightKeyboardKey(currentLetter);
+                cursorBackground(cursor);
                 return;
             }
             currWordLength = words[wordCount].childElementCount;
