@@ -2,6 +2,7 @@ html {
 	margin: 0px;
 	padding: 0px;
 	overflow-x:hidden;
+    overflow-y: hidden;
 }
 
 body {
@@ -39,6 +40,17 @@ li a {
 
 li a:hover {
   background-color: #111;
+}
+
+/* Speed and Accuracy Dashboard */
+#speed {
+    text-align: center;
+    color: white;
+}
+
+#accuracy {
+    text-align: center;
+    color: white;
 }
 /* Header */
 

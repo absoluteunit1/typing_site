@@ -150,138 +150,141 @@ clearBackground = (cursor) => cursor.id = "clear";
 
 //EVENT LISTENERS
 
+
+// Variable definitions
 var textWrapper = document.getElementById("wordswrap");
 var timesTextWasAdded = 0;
 var beginText = document.getElementById("clickToBegin");
-
+var wpm = document.getElementById("speed"); 
+var started = false;
 
 // Listens for the click, that loads the text and starts the timer
 textWrapper.addEventListener("click", function(event) {
+   
+    if (!started) {
+        textWrapper.style.boxShadow = 'none';
+        beginText.remove();
+        if (timesTextWasAdded == 0) {
+            addWords(text2); 
+            timesTextWasAdded++;
+        }
+        
+        var words = document.getElementById("parent").children;
     
+        // Counters for tracking the cursor position
+        var wordCount   = 0;
+        var letterCount = 0;
 
-    textWrapper.style.boxShadow = 'none';
-    beginText.remove();
-    if (timesTextWasAdded == 0) {
-        addWords(text2); 
-        timesTextWasAdded++;
+        // Counter for tracking the number of correct vs incorrect characters typed
+        var correctCount = 0;
+        var incorrectCount = 0;
+
+        //Cursor
+        var cursor = returnCursor(wordCount, letterCount);
+        cursorBackground(cursor)
+
+        // Highlight the first character on the keyboard
+        var currentLetter = words[wordCount].childNodes[letterCount].innerText;
+        highlightKeyboardKey(currentLetter);   
     }
-        
-    var words = document.getElementById("parent").children;
-    
-    // Counters for tracking the cursor position
-    var wordCount   = 0;
-    var letterCount = 0;
-
-    // Counter for tracking the number of correct vs incorrect characters typed
-    var correctCount = 0;
-    var incorrectCount = 0;
-
-    //Cursor
-    var cursor = returnCursor(wordCount, letterCount);
-    cursorBackground(cursor)
-
-    // Highlight the first character on the keyboard
-    var currentLetter = words[wordCount].childNodes[letterCount].innerText;
-    highlightKeyboardKey(currentLetter);   
-
     // Event Listener for typing
-    document.addEventListener("keydown", function(event) {
-        var currWordLength = words[wordCount].childElementCount;
-        var prevLetter = currentLetter; 
-        var totalWords = document.getElementById("parent").childNodes.length;
-        // Check if the pressed key is Caps Lock; don't move cursor (stop execution of the function)
-        if (event.key == "CapsLock") {
-            return;
-        }
-        // Check if the pressed key is Shift; if so, wait for another key
-        if (event.key == "Shift"){
-            document.addEventListener("keydown", function(event) {
-                var pressedKey = event.key;
-            });
-        }else{
-            var pressedKey = event.key;
-        }
-        
-        // Check if pressedKey was only Shift without any other keys; if so, stop the execution of the function
-        if (pressedKey == undefined ){
-            return;
-        }
-
-        //Check if backspace is pressed and we are on the first letter of the first word
-
-        if (pressedKey == "Backspace") {
-            if (letterCount == 0 && wordCount == 0){
+        document.addEventListener("keydown", function(event) {
+            var currWordLength = words[wordCount].childElementCount;
+            var prevLetter = currentLetter; 
+            var totalWords = document.getElementById("parent").childNodes.length;
+            // Check if the pressed key is Caps Lock; don't move cursor (stop execution of the function)
+            if (event.key == "CapsLock") {
                 return;
-            }else if(letterCount == 0){
-                removeKeyHighlight(currentLetter);
-                clearBackground(cursor);
-
-
-                wordCount = wordCount - 1;
-                currWordLength = words[wordCount].childElementCount;
-                letterCount = currWordLength - 1;
-                cursor = returnCursor(wordCount, letterCount); 
-                cursorBackground(cursor);
-                            
-                currentLetter = words[wordCount].childNodes[letterCount].innerText; 
-                highlightKeyboardKey(currentLetter);
-                return;
+            }
+            // Check if the pressed key is Shift; if so, wait for another key
+            if (event.key == "Shift"){
+                document.addEventListener("keydown", function(event) {
+                    var pressedKey = event.key;
+                });
             }else{
-                removeKeyHighlight(currentLetter);
-                clearBackground(cursor);
-                
-                letterCount = letterCount - 1;
-                
-                cursor = returnCursor(wordCount, letterCount);
-                cursorBackground(cursor);
- 
-                currentLetter = words[wordCount].childNodes[letterCount].innerText; 
-                highlightKeyboardKey(currentLetter);
+                var pressedKey = event.key;
+            }
+            
+            // Check if pressedKey was only Shift without any other keys; if so, stop the execution of the function
+            if (pressedKey == undefined ){
                 return;
             }
-        }
-        // Check if the pressed key matches the character in the text
-        // If match: change character background to green, move to next character in text
-        // else: change character background to red, move to next character in text
-        if (prevLetter == pressedKey) {
-            correct(cursor); 
-            correctCount++;
-        }else{
-            incorrect(cursor);
-            incorrectCount++;
-        }
-        letterCount++;
-        if (letterCount == currWordLength) {
-            wordCount++;
-            letterCount = 0;
-            if (wordCount == totalWords) {
-                // If the previous word was the last word in the text, clear the text
-                // todo: add a wpm calculator and show the wpm after the words were typed
-                // RESET THE TEXT AND ALL THE VARIABLES
-                clearWords();
-                removeKeyHighlight(prevLetter);
-                wordCount = 0;
-                addWords(text3);
-                words = document.getElementById("parent").children;
-                currentLetter = words[wordCount].childNodes[letterCount].innerHTML;
-                cursor = returnCursor(wordCount, letterCount); 
-                highlightKeyboardKey(currentLetter);
-                cursorBackground(cursor);
-                return;
-            }
-            currWordLength = words[wordCount].childElementCount;
-                
-        }
-        currentLetter = words[wordCount].childNodes[letterCount].innerText; 
-        highlightKeyboardKey(currentLetter);
-        
-        // In the case that the current letter is the same as the previous letter
-        if(currentLetter != prevLetter) {
-            removeKeyHighlight(prevLetter); 
-        }
-        cursor = returnCursor(wordCount, letterCount);
-        cursorBackground(cursor);
-    
-    });
 
-});
+            //Check if backspace is pressed and we are on the first letter of the first word
+
+            if (pressedKey == "Backspace") {
+                if (letterCount == 0 && wordCount == 0){
+                    return;
+                }else if(letterCount == 0){
+                    removeKeyHighlight(currentLetter);
+                    clearBackground(cursor);
+
+
+                    wordCount = wordCount - 1;
+                    currWordLength = words[wordCount].childElementCount;
+                    letterCount = currWordLength - 1;
+                    cursor = returnCursor(wordCount, letterCount); 
+                    cursorBackground(cursor);
+                                
+                    currentLetter = words[wordCount].childNodes[letterCount].innerText; 
+                    highlightKeyboardKey(currentLetter);
+                    return;
+                }else{
+                    removeKeyHighlight(currentLetter);
+                    clearBackground(cursor);
+                    
+                    letterCount = letterCount - 1;
+                    
+                    cursor = returnCursor(wordCount, letterCount);
+                    cursorBackground(cursor);
+     
+                    currentLetter = words[wordCount].childNodes[letterCount].innerText; 
+                    highlightKeyboardKey(currentLetter);
+                    return;
+                }
+            }
+            // Check if the pressed key matches the character in the text
+            // If match: change character background to green, move to next character in text
+            // else: change character background to red, move to next character in text
+            if (prevLetter == pressedKey) {
+                correct(cursor); 
+                correctCount++;
+            }else{
+                incorrect(cursor);
+                incorrectCount++;
+            }
+            letterCount++;
+            if (letterCount == currWordLength) {
+                wordCount++;
+                letterCount = 0;
+                if (wordCount == totalWords) {
+                    // If the previous word was the last word in the text, clear the text
+                    // todo: add a wpm calculator and show the wpm after the words were typed
+                    // RESET THE TEXT AND ALL THE VARIABLES
+                    clearWords();
+                    removeKeyHighlight(prevLetter);
+                    wordCount = 0;
+                    addWords(text3);
+                    words = document.getElementById("parent").children;
+                    currentLetter = words[wordCount].childNodes[letterCount].innerHTML;
+                    cursor = returnCursor(wordCount, letterCount); 
+                    highlightKeyboardKey(currentLetter);
+                    cursorBackground(cursor);
+                    return;
+                }
+                currWordLength = words[wordCount].childElementCount;
+                    
+            }
+            currentLetter = words[wordCount].childNodes[letterCount].innerText; 
+            highlightKeyboardKey(currentLetter);
+            
+            // In the case that the current letter is the same as the previous letter
+            if(currentLetter != prevLetter) {
+                removeKeyHighlight(prevLetter); 
+            }
+            cursor = returnCursor(wordCount, letterCount);
+            cursorBackground(cursor);
+        
+        });
+
+    });
