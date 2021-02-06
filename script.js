@@ -1,4 +1,4 @@
-var text2 = ["Hello", "this", "is", "my", "test", "for", "my","typing","game."]
+var text2 = ["Nadiya", "Suprun", "is", "pretty", "awesome", "and", "makes","awesome","cheesecakes."]
 var text3 = ["This", "is", "my", "second", "text", "for", "my", "typing", "game."]
 
 // LOCAL STORAGE
@@ -6,6 +6,12 @@ var text3 = ["This", "is", "my", "second", "text", "for", "my", "typing", "game.
 averageWordsPerMinute = window.localStorage;
 
 // FUNCTION DEFINITIONS
+
+
+// Updates the WPM 
+
+
+// Adding text to the page
 
 addWordsToLine = (word, lastWord = false) => {
 	var lines = document.getElementsByTagName("h3");
@@ -40,6 +46,8 @@ addWords = (arr) => {
 	}
 
 }
+
+// Input checking
 
 // Takes in a character and returns the id (see Shift key in index.html) of which (left or right) shift key to use
 // Also checks if a the character is an upperCase or not
@@ -93,6 +101,7 @@ returnKeyId = (character) => {
 }
 
 // Highlights the current character on the keyboard
+
 highlightKeyboardKey = (currentLetter) => { 
     if (whichShift(currentLetter) == undefined) {
         var keyboardKey = document.getElementById(returnKeyId(currentLetter));
