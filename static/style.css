@@ -86,6 +86,10 @@ span {
 
 /* Keyboard */
 
+#keyboard-wrapper{
+    display: flex;
+    justify-content: center;
+}
 
 .keyboard-base {
     padding: 20px;
@@ -94,9 +98,9 @@ span {
     background-color: #232946;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: repeat(30, 30px);
-    grid-template-rows: repeat(5, 60px);
-    grid-gap: 5px;
+    grid-template-columns: repeat(30, 3.2vh);
+    grid-template-rows: repeat(5, 6vh);
+    grid-gap: 1px;
 }
 
 
@@ -105,15 +109,11 @@ span {
     color: #b8c1ec;
     border-radius: 5px;
     grid-column: span 2;
-    font-size: 20px;
+    font-size: 18px;
     text-align: center;
     padding-top: 7px;
 }
 
-.key:hover {
-  border: 1px solid #eeeeee;
-  
-}
 
 .delete {
     grid-column: span 4;

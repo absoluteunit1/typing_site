@@ -1,0 +1,29 @@
+{
+  "name": "typing_site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/absoluteunit1/typing_app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines":{
+      "node":"10.22.1"
+  },
+  "bugs": {
+    "url": "https://github.com/absoluteunit1/typing_app/issues"
+  },
+  "homepage": "https://github.com/absoluteunit1/typing_app#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

@@ -1,4 +1,4 @@
-var text2 = ["Nadiya", "Suprun", "is", "pretty", "awesome", "and", "makes","awesome","cheesecakes."]
+var text2 = ["Hello", "this", "is", "my", "test", "for", "my","typing","game."]
 var text3 = ["This", "is", "my", "second", "text", "for", "my", "typing", "game."]
 
 // LOCAL STORAGE
@@ -10,6 +10,7 @@ averageWordsPerMinute = window.localStorage;
 
 // Updates the WPM 
 
+updateWPM = () => {}
 
 // Adding text to the page
 
