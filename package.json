@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -14,16 +13,9 @@
   "author": "",
   "license": "ISC",
   "engines":{
-      "node":"10.22.1"
+      "node":"10.x"
   },
-  "bugs": {
-    "url": "https://github.com/absoluteunit1/typing_app/issues"
-  },
-  "homepage": "https://github.com/absoluteunit1/typing_app#readme",
   "dependencies": {
     "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.7"
   }
 }
