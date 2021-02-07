@@ -7,6 +7,10 @@ averageWordsPerMinute = window.localStorage;
 
 // FUNCTION DEFINITIONS
 
+// Making the API call to get the next string of text
+
+
+
 
 // Updates the WPM 
 

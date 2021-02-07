@@ -4,6 +4,11 @@ const app = new express()
 
 app.use(express.static('static'))
 
+app.get('/text', function (req, res) {
+    let temp = "This is a sample text"
+    res.send(temp)
+})
+
 let port = process.env.PORT
 
 if (port == null || port == ""){
@@ -13,8 +18,3 @@ if (port == null || port == ""){
 app.listen(port, ()=>{
     console.log('App listening on port 4000')
 })
-
-
-
-
-
