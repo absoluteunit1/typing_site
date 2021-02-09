@@ -12,16 +12,19 @@ body {
 	overflow-x: hidden;
 }
 
-/* Speed and Accuracy Dashboard */
-#speed {
-    text-align: center;
-    color: white;
+/* Top Nav */
+.topnav {
+    overflow: hidden;
 }
 
-#accuracy {
+.topnav a {
+    float: right;
     text-align: center;
-    color: white;
+    padding: 2vh 5vh;
+    text-decoration: none;
+    font-size: 2vh;
 }
+
 /* Header */
 
 h1 {
@@ -79,9 +82,7 @@ h3 {
 
 span {
 	display:inline-block;
-	border-radius: 3px;
 	white-space: pre;
-
 }
 
 /* Keyboard */
@@ -159,8 +160,18 @@ span {
 /*Cursor Background Change */
 
 #cursor {
-    background: rgba(255,255,255,.25);
+    animation: cursor_blinker 3s infinite;
+    border-bottom: solid 1px white;
 }
+
+@keyframes cursor_blinker {
+    0% {background: #232946;}
+    25% {background: rgba(255, 255, 255, .25);}
+    50% {background: #232946;}
+    75% {background: rgba(255, 255, 255, .35);}
+    100% {background: #232946;}
+}
+
 
 #correct {
     background: rgba(0,128,0,.3);
