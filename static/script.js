@@ -173,6 +173,11 @@ incorrect = (cursor) => cursor.id = "incorrect";
 clearBackground = (cursor) => cursor.id = "clear";
 
 //EVENT LISTENERS
+
+
+
+
+
 const getText = async () => {
     const response = await fetch("/text");
     const myText = await response.text();
@@ -180,6 +185,8 @@ const getText = async () => {
 }
 
 getText();
+
+
 
 var words = document.getElementById("parent").children;
 
@@ -274,16 +281,16 @@ document.addEventListener("keydown", function(event) {
             clearWords();
             removeKeyHighlight(prevLetter);
             wordCount = 0;
-            addWords(text3); 
+            // addWords(text3); 
+            getText();
 
 
 
-
-            words = document.getElementById("parent").children;
-            currentLetter = words[wordCount].childNodes[letterCount].innerHTML;
-            cursor = returnCursor(wordCount, letterCount); 
-            highlightKeyboardKey(currentLetter);
-            cursorBackground(cursor);
+            // words = document.getElementById("parent").children;
+            // currentLetter = words[wordCount].childNodes[letterCount].innerHTML;
+            // cursor = returnCursor(wordCount, letterCount); 
+            // highlightKeyboardKey(currentLetter);
+            // cursorBackground(cursor);
             return;
         }
         currWordLength = words[wordCount].childElementCount;

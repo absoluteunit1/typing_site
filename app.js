@@ -1,12 +1,19 @@
 const express = require('express')
-
+const mongoose = require('mongoose')
+const TextBlob = require('./models/Text')
 const app = new express()
+
+
+mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true})
+
 
 app.use(express.static('static'))
 
-app.get('/text', function (req, res) {
-    let temp = "This is a sample text"
-    res.send(temp)
+//Queries the database with a random id and responds with a text
+app.get('/text', async(req, res) => {
+    let id = Math.floor(Math.random()*Math.floor(3)) + 1; 
+    let textBlob = await TextBlob.findOne({"id" : `${id}`});
+    res.send(textBlob.text)
 })
 
 let port = process.env.PORT
