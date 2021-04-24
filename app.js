@@ -11,14 +11,14 @@ app.use(express.static('static'))
 
 //Queries the database with a random id and responds with a text
 app.get('/text', async(req, res) => {
-    let id = Math.floor(Math.random()*Math.floor(2)) + 1; 
+    let id = Math.floor(Math.random()*Math.floor(4)) + 1;
     let textBlob = await TextBlob.findOne({"_id" : `${id}`});
     res.send(textBlob.text)
 })
 
 let port = process.env.PORT
 
-if (port == null || port == ""){
+if (port == null || port === ""){
     port = 4000
 }
 

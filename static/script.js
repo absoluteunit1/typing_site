@@ -1,31 +1,25 @@
 // LOCAL STORAGE
-
 averageWordsPerMinute = window.localStorage;
 
 // PREVENT BROWSER SHORTCUT DEFAULTS WHILE IN PAGE
-
 window.onkeydown = function(e) {
-    if (e.code === "8" && e.target === document.body){
+    if (e.code === "Backspace" && e.target === document.body){
         e.preventDefault();
-    }else if(e.code === "222" && e.target === document.body){
+    }else if(e.code === "Quote" && e.target === document.body){
         e.preventDefault();
     }
 }
 
-// MOBILE DETECTION
-
-// FUNCTION DEFINITIONS
-
-// API GET request to get the text 
-
+// LOAD TEXT ON WINDOW LOAD
+window.addEventListener('load', (event) => {
+    getText();
+})
 
 
-// Updates the WPM 
 
-updateWPM = () => {}
+// FUNCTIONS
 
-// Adding text to the page
-
+// Putting text into html
 addWordsToLine = (word, lastWord = false) => {
 	let lines = document.getElementsByTagName("h3");
 	let line  = lines[lines.length - 1];
@@ -42,7 +36,6 @@ addWordsToLine = (word, lastWord = false) => {
 	    line.innerHTML += '<div class="wordwrap"><span> </span></div>';
     }
 }
-
 addWords = (arr) => {
 	let i = 0;
 	let line = document.createElement("h3");
@@ -61,9 +54,6 @@ addWords = (arr) => {
 }
 
 // Input checking
-
-// Takes in a character and returns the id (see Shift key in index.html) of which (left or right) shift key to use
-// Also checks if a the character is an upperCase or not
 whichShift = (character) => {
     let leftId = "LeftShift";
     let rightId = "RightShift";
@@ -114,8 +104,7 @@ returnKeyId = (character) => {
 }
 
 // Highlights the current character on the keyboard
-
-highlightKeyboardKey = (currentLetter) => { 
+highlightKeyboardKey = (currentLetter) => {
     let keyboardKey;
     if (whichShift(currentLetter) === undefined) {
         keyboardKey = document.getElementById(returnKeyId(currentLetter));
@@ -134,7 +123,6 @@ highlightKeyboardKey = (currentLetter) => {
 }
 
 // Remove the previous key highlight on the keyboard
-
 removeKeyHighlight = (prevLetter) => {
     let keyboardKey;
     if (whichShift(prevLetter) === undefined) {
@@ -157,42 +145,19 @@ returnCursor = (wordCount, letterCount) => {
         return document.getElementById("parent").getElementsByClassName("wordwrap")[wordCount].getElementsByTagName("span")[letterCount];
     }
 
-loadText = () => {
-    // Takes an array of text and loads it into the textbox area.
-}
-
+// Clears the text from the page
 clearWords = () => document.getElementById("wordswrap").innerHTML = "";
 
-
 //Cursor Functions for changing the cursor background
-
 cursorBackground = (cursor) => cursor.id = "cursor";
 correct = (cursor) => cursor.id = "correct";
 incorrect = (cursor) => cursor.id = "incorrect";
 clearBackground = (cursor) => cursor.id = "clear";
 
+//SERVER CALLS
 
-//GLOBAL VARIABLE DEFINITIONS
-
-var words;
-var wordCount;
-var letterCount;
-var correctCount;
-var incorrectCount;
-var cursor;
-var currentLetter;
-var totalWords;
-var pressedKey;
-
-//CUSTOM EVENTS (create an event that is created by the user finishing typing 
-//the text and dispatch it; have an event listener that listens for this event
-//loads a new text (makes a server call) and resets the variables (counters, etc)
-
-const loadedText = new Event('loadedText');
-const finishedTyping = new Event('finishedTyping');
-
-//EVENT LISTENERS
-
+// Make server call to get the text the user will type, loads the text into the html and dispatch an event
+//that the text has been loaded
 const getText = async () => {
     const response = await fetch("/text");
     const myText = await response.text();
@@ -200,19 +165,39 @@ const getText = async () => {
     document.dispatchEvent(loadedText);
 }
 
+//GLOBAL VARIABLE DEFINITIONS
+
+let words;
+let wordCount;
+let letterCount;
+let correctCount;
+let incorrectCount;
+let cursor;
+let currentLetter;
+let totalWords;
+let pressedKey;
+let prevLetter;
+let currWordLength;
+
+//CUSTOM EVENTS
+
+// Event: server call was made and text was loaded into the text area
+const loadedText = new Event('loadedText');
+
+// Event: user finished typing the current text
+const finishedTyping = new Event('finishedTyping');
+
+//EVENT LISTENERS
+
+// Executed when the user finished typing
 document.addEventListener('finishedTyping', function(event) {
     getText();
 });
 
-window.addEventListener('load', (event) => {
-    getText();
-    console.log("Page has loaded");
-})
-
-
+// Executed when the text was loaded into the page
 document.addEventListener('loadedText', function(loadedTheText) {
-    words = document.getElementById("parent").children;    
-    wordCount   = 0;
+    words = document.getElementById("parent").children;
+    wordCount = 0;
     letterCount = 0;
 
     // Counter for tracking the number of correct vs incorrect characters typed
@@ -225,34 +210,24 @@ document.addEventListener('loadedText', function(loadedTheText) {
 
     // Highlight the first character on the keyboard
     currentLetter = words[wordCount].childNodes[letterCount].innerText;
-    highlightKeyboardKey(currentLetter);   
+    highlightKeyboardKey(currentLetter);
 
     currWordLength = words[wordCount].childElementCount;
     totalWords = document.getElementById("parent").childNodes.length;
-   
-    document.addEventListener("keydown", function(event) {
-        prevLetter = currentLetter; 
-        // Check if the pressed key is Caps Lock; don't move cursor (stop execution of the function)
-        if (event.key === "CapsLock") {
-            return;
-        }
-        // Check if the pressed key is Shift; if so, wait for another key
-        if (event.key === "Shift"){
+});
+
+// Executed when the user pressed a key
+document.addEventListener("keydown", function(event) {
+        pressedKey = undefined;
+        if (event.key === "Shift") {
             document.addEventListener("keydown", function(event) {
                 pressedKey = event.key;
             });
-        }else{
-            pressedKey = event.key;
+            if (pressedKey === undefined) {
+                return;
+            }
         }
-        
-        // Check if pressedKey was only Shift without any other keys; if so, stop the execution of the function
-        if (pressedKey === undefined ){
-            return;
-        }
-
-        //Check if backspace is pressed and we are on the first letter of the first word
-
-        if (pressedKey === "Backspace") {
+        if (event.key === "Backspace") {
             if (letterCount === 0 && wordCount === 0){
                 return;
             }else if(letterCount === 0){
@@ -281,9 +256,25 @@ document.addEventListener('loadedText', function(loadedTheText) {
                 return;
             }
         }
-        // Check if the pressed key matches the character in the text
-        // If match: change character background to green, move to next character in text
-        // else: change character background to red, move to next character in text
+        if (event.altKey || event.ctrlKey || event.metaKey) {
+            return;
+        }
+        switch (event.key) {
+            case "CapsLock": return;
+            case "Delete": return;
+            case "Insert": return;
+            case "PageDown": return;
+            case "PageUp": return;
+            case "End": return;
+            case "Home": return;
+            case "ArrowRight": return;
+            case "ArrowLeft": return;
+            case "ArrowDown": return;
+            case "ArrowUp": return;
+            default: pressedKey = event.key;
+        }
+
+        prevLetter = currentLetter;
         if (prevLetter === pressedKey) {
             correct(cursor); 
             correctCount++;
@@ -303,20 +294,16 @@ document.addEventListener('loadedText', function(loadedTheText) {
                 removeKeyHighlight(prevLetter);
                 wordCount = 0;
                 document.dispatchEvent(finishedTyping);
-                return;
             }
             currWordLength = words[wordCount].childElementCount;
                 
         }
         currentLetter = words[wordCount].childNodes[letterCount].innerText; 
         highlightKeyboardKey(currentLetter);
-        
-        // In the case that the current letter is the same as the previous letter
         if(currentLetter !== prevLetter) {
             removeKeyHighlight(prevLetter); 
         }
         cursor = returnCursor(wordCount, letterCount);
         cursorBackground(cursor);
 
-    });
 });
