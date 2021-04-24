@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const TextSchema = new Schema({
-    id: Number,
+    _id: Number,
     text: String
 });
 
-const TextBlob = mongoose.model('TextBlob', TextSchema);
+const TextBlob = mongoose.model('TextBlob', TextSchema, "Text");
 module.exports = TextBlob
 
 

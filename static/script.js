@@ -1,6 +1,3 @@
-var text2 = ["Hello", "this", "is", "my", "test"] 
-var text3 = ["This", "is", "my", "second", "text", "for", "my", "typing", "game."]
-
 // LOCAL STORAGE
 
 averageWordsPerMinute = window.localStorage;
@@ -8,9 +5,9 @@ averageWordsPerMinute = window.localStorage;
 // PREVENT BROWSER SHORTCUT DEFAULTS WHILE IN PAGE
 
 window.onkeydown = function(e) {
-    if (e.keyCode == 8 && e.target == document.body){
+    if (e.code === "8" && e.target === document.body){
         e.preventDefault();
-    }else if(e.keyCode == 222 && e.target == document.body){
+    }else if(e.code === "222" && e.target === document.body){
         e.preventDefault();
     }
 }
@@ -30,13 +27,13 @@ updateWPM = () => {}
 // Adding text to the page
 
 addWordsToLine = (word, lastWord = false) => {
-	var lines = document.getElementsByTagName("h3");
-	var line  = lines[lines.length - 1];
-	var wordWrapper = document.createElement("div");
+	let lines = document.getElementsByTagName("h3");
+	let line  = lines[lines.length - 1];
+	let wordWrapper = document.createElement("div");
 	wordWrapper.className = "wordwrap";
 	for (let i = 0; i < word.length; i++) {
-		var span = document.createElement("span");
-		var letter = document.createTextNode(word[i]);
+		let span = document.createElement("span");
+		let letter = document.createTextNode(word[i]);
 		span.appendChild(letter);
 		wordWrapper.appendChild(span);
 		line.appendChild(wordWrapper);
@@ -47,13 +44,13 @@ addWordsToLine = (word, lastWord = false) => {
 }
 
 addWords = (arr) => {
-	var i = 0;
-	var line = document.createElement("h3");
+	let i = 0;
+	let line = document.createElement("h3");
 	line.id = "parent";
-	while (i != arr.length) {
-		var wordsWrap = document.getElementById("wordswrap");
+	while (i !== arr.length) {
+		let wordsWrap = document.getElementById("wordswrap");
 		wordsWrap.appendChild(line);
-        if ( i + 1 == arr.length) {
+        if ( i + 1 === arr.length) {
     		addWordsToLine(arr[i], true);
         }else{
             addWordsToLine(arr[i]);
@@ -68,10 +65,10 @@ addWords = (arr) => {
 // Takes in a character and returns the id (see Shift key in index.html) of which (left or right) shift key to use
 // Also checks if a the character is an upperCase or not
 whichShift = (character) => {
-    leftId = "LeftShift";
-    rightId = "RightShift";
-    leftShiftKeys = "^&*()_+|YHNUJMIK<OL>P:?\"{}";
-    rightShiftKeys = "~!@#$%QWERTASDFGZXCVB";
+    let leftId = "LeftShift";
+    let rightId = "RightShift";
+    let leftShiftKeys = "^&*()_+|YHNUJMIK<OL>P:?\"{}";
+    let rightShiftKeys = "~!@#$%QWERTASDFGZXCVB";
 
     if (leftShiftKeys.includes(character)){
         return leftId;
@@ -83,31 +80,31 @@ whichShift = (character) => {
 
 // Takes in a character that requires a shift key, and returns it's original key (which is the id in index.html)
 returnKeyId = (character) => {
-    keys = {
-        "~" : "`",
-        "!" : "1",
-        "@" : "2",
-        "#" : "3",
-        "$" : "4",
-        "%" : "5",
-        "^" : "6",
-        "&" : "7",
-        "*" : "8",
-        "(" : "9",
-        ")" : "0",
-        "_" : "-",
-        "+" : "=",
-        "{" : "[",
-        "}" : "\'",
-        ":" : ";",
+    let keys = {
+        "~": "`",
+        "!": "1",
+        "@": "2",
+        "#": "3",
+        "$": "4",
+        "%": "5",
+        "^": "6",
+        "&": "7",
+        "*": "8",
+        "(": "9",
+        ")": "0",
+        "_": "-",
+        "+": "=",
+        "{": "[",
+        "}": "\'",
+        ":": ";",
         "\"": "'",
-        "<" : ",",
-        ">" : ".",
-        "?" : "/",
-        "|" : "\\",
-        " " : "Space"
+        "<": ",",
+        ">": ".",
+        "?": "/",
+        "|": "\\",
+        " ": "Space"
     }
-    if (character.toLowerCase() != character.toUpperCase()){
+    if (character.toLowerCase() !== character.toUpperCase()){
         return character.toLowerCase(); 
     }else if (keys[character] != null) {
         return keys[character];
@@ -119,17 +116,18 @@ returnKeyId = (character) => {
 // Highlights the current character on the keyboard
 
 highlightKeyboardKey = (currentLetter) => { 
-    if (whichShift(currentLetter) == undefined) {
-        var keyboardKey = document.getElementById(returnKeyId(currentLetter));
+    let keyboardKey;
+    if (whichShift(currentLetter) === undefined) {
+        keyboardKey = document.getElementById(returnKeyId(currentLetter));
         keyboardKey.style.backgroundColor = "rgba(255,255,255,0.15)";
-    }else if(whichShift(currentLetter) == "LeftShift"){
-        var leftShiftKey = document.getElementById("LeftShift");
-        var keyboardKey = document.getElementById(returnKeyId(currentLetter));
+    }else if(whichShift(currentLetter) === "LeftShift"){
+        let leftShiftKey = document.getElementById("LeftShift");
+        keyboardKey = document.getElementById(returnKeyId(currentLetter));
         leftShiftKey.style.backgroundColor = "rgba(255,255,255,0.15)";
         keyboardKey.style.backgroundColor = "rgba(255,255,255,0.15)";
     }else{
-        var rightShiftKey = document.getElementById("RightShift");
-        var keyboardKey = document.getElementById(returnKeyId(currentLetter));
+        let rightShiftKey = document.getElementById("RightShift");
+        keyboardKey = document.getElementById(returnKeyId(currentLetter));
         rightShiftKey.style.backgroundColor = "rgba(255,255,255,0.15)";
         keyboardKey.style.backgroundColor = "rgba(255,255,255,0.15)";
     }
@@ -138,17 +136,18 @@ highlightKeyboardKey = (currentLetter) => {
 // Remove the previous key highlight on the keyboard
 
 removeKeyHighlight = (prevLetter) => {
-    if (whichShift(prevLetter) == undefined) {
-         var keyboardKey = document.getElementById(returnKeyId(prevLetter));
+    let keyboardKey;
+    if (whichShift(prevLetter) === undefined) {
+         keyboardKey = document.getElementById(returnKeyId(prevLetter));
          keyboardKey.style.backgroundColor = "#232946";
-     }else if(whichShift(prevLetter) == "LeftShift"){
-        var leftShiftKey = document.getElementById("LeftShift");
-        var keyboardKey = document.getElementById(returnKeyId(prevLetter));
+     }else if(whichShift(prevLetter) === "LeftShift"){
+        let leftShiftKey = document.getElementById("LeftShift");
+        keyboardKey = document.getElementById(returnKeyId(prevLetter));
         leftShiftKey.style.backgroundColor = "#232946";
         keyboardKey.style.backgroundColor = "#232946";
     }else{
-        var rightShiftKey = document.getElementById("RightShift");
-        var keyboardKey = document.getElementById(returnKeyId(prevLetter));
+        let rightShiftKey = document.getElementById("RightShift");
+        keyboardKey = document.getElementById(returnKeyId(prevLetter));
         rightShiftKey.style.backgroundColor = "#232946";
         keyboardKey.style.backgroundColor = "#232946";
     }
@@ -182,7 +181,7 @@ var correctCount;
 var incorrectCount;
 var cursor;
 var currentLetter;
-var totalWords; 
+var totalWords;
 var pressedKey;
 
 //CUSTOM EVENTS (create an event that is created by the user finishing typing 
@@ -234,11 +233,11 @@ document.addEventListener('loadedText', function(loadedTheText) {
     document.addEventListener("keydown", function(event) {
         prevLetter = currentLetter; 
         // Check if the pressed key is Caps Lock; don't move cursor (stop execution of the function)
-        if (event.key == "CapsLock") {
+        if (event.key === "CapsLock") {
             return;
         }
         // Check if the pressed key is Shift; if so, wait for another key
-        if (event.key == "Shift"){
+        if (event.key === "Shift"){
             document.addEventListener("keydown", function(event) {
                 pressedKey = event.key;
             });
@@ -247,16 +246,16 @@ document.addEventListener('loadedText', function(loadedTheText) {
         }
         
         // Check if pressedKey was only Shift without any other keys; if so, stop the execution of the function
-        if (pressedKey == undefined ){
+        if (pressedKey === undefined ){
             return;
         }
 
         //Check if backspace is pressed and we are on the first letter of the first word
 
-        if (pressedKey == "Backspace") {
-            if (letterCount == 0 && wordCount == 0){
+        if (pressedKey === "Backspace") {
+            if (letterCount === 0 && wordCount === 0){
                 return;
-            }else if(letterCount == 0){
+            }else if(letterCount === 0){
                 removeKeyHighlight(currentLetter);
                 clearBackground(cursor);
                 wordCount = wordCount - 1;
@@ -285,7 +284,7 @@ document.addEventListener('loadedText', function(loadedTheText) {
         // Check if the pressed key matches the character in the text
         // If match: change character background to green, move to next character in text
         // else: change character background to red, move to next character in text
-        if (prevLetter == pressedKey) {
+        if (prevLetter === pressedKey) {
             correct(cursor); 
             correctCount++;
         }else{
@@ -293,10 +292,10 @@ document.addEventListener('loadedText', function(loadedTheText) {
             incorrectCount++;
         }
         letterCount++;
-        if (letterCount == currWordLength) {
+        if (letterCount === currWordLength) {
             wordCount++;
             letterCount = 0;
-            if (wordCount == totalWords) {
+            if (wordCount === totalWords) {
                 // If the previous word was the last word in the text, clear the text
                 // todo: add a wpm calculator and show the wpm after the words were typed
                 // RESET THE TEXT AND ALL THE VARIABLES
@@ -313,7 +312,7 @@ document.addEventListener('loadedText', function(loadedTheText) {
         highlightKeyboardKey(currentLetter);
         
         // In the case that the current letter is the same as the previous letter
-        if(currentLetter != prevLetter) {
+        if(currentLetter !== prevLetter) {
             removeKeyHighlight(prevLetter); 
         }
         cursor = returnCursor(wordCount, letterCount);

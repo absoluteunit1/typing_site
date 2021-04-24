@@ -11,8 +11,8 @@ app.use(express.static('static'))
 
 //Queries the database with a random id and responds with a text
 app.get('/text', async(req, res) => {
-    let id = Math.floor(Math.random()*Math.floor(3)) + 1; 
-    let textBlob = await TextBlob.findOne({"id" : `${id}`});
+    let id = Math.floor(Math.random()*Math.floor(2)) + 1; 
+    let textBlob = await TextBlob.findOne({"_id" : `${id}`});
     res.send(textBlob.text)
 })
 
