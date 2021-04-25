@@ -1,7 +1,7 @@
 // LOCAL STORAGE
 averageWordsPerMinute = window.localStorage;
 
-// PREVENT BROWSER SHORTCUT DEFAULTS WHILE IN PAGE
+// PREVENT BROWSER SHORTCUT DEFAULTS
 window.onkeydown = function(e) {
     if (e.code === "Backspace" && e.target === document.body){
         e.preventDefault();
@@ -10,12 +10,10 @@ window.onkeydown = function(e) {
     }
 }
 
-// LOAD TEXT ON WINDOW LOAD
-window.addEventListener('load', (event) => {
+// ON WINDOW LOAD
+window.addEventListener('load', () => {
     getText();
 })
-
-
 
 // FUNCTIONS
 
@@ -65,7 +63,6 @@ whichShift = (character) => {
     }else if(rightShiftKeys.includes(character)){
         return rightId;
     }
-    return;
 }
 
 // Takes in a character that requires a shift key, and returns it's original key (which is the id in index.html)
@@ -154,6 +151,17 @@ correct = (cursor) => cursor.id = "correct";
 incorrect = (cursor) => cursor.id = "incorrect";
 clearBackground = (cursor) => cursor.id = "clear";
 
+
+
+//__________________________________TESTING AREA____________________________________________
+let wpmText = document.getElementById("wpm");
+let timerId = setInterval(() => {
+    wpmText.innerText = (charactersTyped/timeElapsed).toString();
+}, 500);
+
+
+// ______________________________________________
+
 //SERVER CALLS
 
 // Make server call to get the text the user will type, loads the text into the html and dispatch an event
@@ -161,12 +169,16 @@ clearBackground = (cursor) => cursor.id = "clear";
 const getText = async () => {
     const response = await fetch("/text");
     const myText = await response.text();
+    totalLetters = myText.length;
     addWords(myText.split(" "));
     document.dispatchEvent(loadedText);
 }
 
 //GLOBAL VARIABLE DEFINITIONS
 
+let timeElapsed=5;
+let charactersTyped=5;
+let totalLetters;
 let words;
 let wordCount;
 let letterCount;
@@ -190,12 +202,12 @@ const finishedTyping = new Event('finishedTyping');
 //EVENT LISTENERS
 
 // Executed when the user finished typing
-document.addEventListener('finishedTyping', function(event) {
+document.addEventListener('finishedTyping', function() {
     getText();
 });
 
 // Executed when the text was loaded into the page
-document.addEventListener('loadedText', function(loadedTheText) {
+document.addEventListener('loadedText', function() {
     words = document.getElementById("parent").children;
     wordCount = 0;
     letterCount = 0;
@@ -271,6 +283,7 @@ document.addEventListener("keydown", function(event) {
             case "ArrowLeft": return;
             case "ArrowDown": return;
             case "ArrowUp": return;
+            case "Enter": return;
             default: pressedKey = event.key;
         }
 
@@ -283,6 +296,7 @@ document.addEventListener("keydown", function(event) {
             incorrectCount++;
         }
         letterCount++;
+        charactersTyped++;
         if (letterCount === currWordLength) {
             wordCount++;
             letterCount = 0;
@@ -294,6 +308,7 @@ document.addEventListener("keydown", function(event) {
                 removeKeyHighlight(prevLetter);
                 wordCount = 0;
                 document.dispatchEvent(finishedTyping);
+                return;
             }
             currWordLength = words[wordCount].childElementCount;
                 
