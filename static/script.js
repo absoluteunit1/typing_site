@@ -151,15 +151,28 @@ correct = (cursor) => cursor.id = "correct";
 incorrect = (cursor) => cursor.id = "incorrect";
 clearBackground = (cursor) => cursor.id = "clear";
 
+//Check if user is actively typing
 
 
 //__________________________________TESTING AREA____________________________________________
 let wpmText = document.getElementById("wpm");
 let timerId = setInterval(() => {
-    wpmText.innerText = (charactersTyped/timeElapsed).toString();
-}, 500);
+    if (userActive === true) {
+        //start tracking the speed
+        wpmText.innerText = Math.round(((charactersTyped/5)/timeElapsed)).toString();
+    }
+}, 1000);
 
-
+let checkActivity = setInterval(() => {
+    if (charactersTyped3SecondsAgo !== charactersTyped) {
+        userActive = true;
+        charactersTyped3SecondsAgo = charactersTyped;
+    } else {
+        userActive = false;
+        startingTime = undefined;
+        charactersTyped = 0;
+    }
+}, 3000);
 // ______________________________________________
 
 //SERVER CALLS
@@ -176,8 +189,14 @@ const getText = async () => {
 
 //GLOBAL VARIABLE DEFINITIONS
 
-let timeElapsed=5;
-let charactersTyped=5;
+let timeElapsed;
+let startingTime;
+let currTime;
+let charactersTyped = 0;
+let charactersTyped3SecondsAgo = 0;
+let userActive = false;
+let speed;
+
 let totalLetters;
 let words;
 let wordCount;
@@ -230,6 +249,14 @@ document.addEventListener('loadedText', function() {
 
 // Executed when the user pressed a key
 document.addEventListener("keydown", function(event) {
+        userActive = true;
+
+        if (startingTime === undefined) {
+            startingTime = new Date().getTime();
+        }
+        currTime = new Date().getTime();
+        timeElapsed = ((currTime - startingTime)/(1000*60));
+
         pressedKey = undefined;
         if (event.key === "Shift") {
             document.addEventListener("keydown", function(event) {
@@ -297,6 +324,7 @@ document.addEventListener("keydown", function(event) {
         }
         letterCount++;
         charactersTyped++;
+        console.log(charactersTyped);
         if (letterCount === currWordLength) {
             wordCount++;
             letterCount = 0;

@@ -67,8 +67,7 @@ h3 {
 #wordswrap {
 	height: 25vh;
 	width: 100vh;
-	margin: 100px auto;
-    margin-bottom: 25px;
+	margin: 100px auto 25px;
 	border: 0.2px solid #b8c1ec;
 	border-radius: 10px;
 	padding-left: 5px;
@@ -87,12 +86,26 @@ span {
 
 /*Stats*/
 
-#wpm {
+#gauge {
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+}
 
+#wpm {
+    color: #b8c1ec;
+}
+
+#speed {
+    color: #b8c1ec;
 }
 
 #accuracy {
+    color: #b8c1ec;
+}
 
+#percentage {
+    color: #b8c1ec;
 }
 
 /* Keyboard */
