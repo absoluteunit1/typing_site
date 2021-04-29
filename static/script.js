@@ -139,7 +139,9 @@ removeKeyHighlight = (prevLetter) => {
 }
 
 returnCursor = (wordCount, letterCount) => {
-        return document.getElementById("parent").getElementsByClassName("wordwrap")[wordCount].getElementsByTagName("span")[letterCount];
+        return document.getElementById("parent")
+            .getElementsByClassName("wordwrap")[wordCount]
+            .getElementsByTagName("span")[letterCount];
     }
 
 // Clears the text from the page
