@@ -153,18 +153,23 @@ correct = (cursor) => cursor.id = "correct";
 incorrect = (cursor) => cursor.id = "incorrect";
 clearBackground = (cursor) => cursor.id = "clear";
 
-//Check if user is actively typing
-
-
 //__________________________________TESTING AREA____________________________________________
-let wpmText = document.getElementById("wpm");
+
+// _________________________________________________________________________________________
+
+
+
+
+// Updates the WPM display every second
 let timerId = setInterval(() => {
     if (userActive === true) {
         //start tracking the speed
-        wpmText.innerText = Math.round(((charactersTyped/5)/timeElapsed)).toString();
+        speed = Math.round(((charactersTyped/5)/timeElapsed)).toString();
+        wpmText.innerText = speed;
     }
 }, 1000);
 
+// Check if the user is actively typing; if not, reset the timer and characters typed
 let checkActivity = setInterval(() => {
     if (charactersTyped3SecondsAgo !== charactersTyped) {
         userActive = true;
@@ -175,7 +180,6 @@ let checkActivity = setInterval(() => {
         charactersTyped = 0;
     }
 }, 3000);
-// ______________________________________________
 
 //SERVER CALLS
 
@@ -191,6 +195,7 @@ const getText = async () => {
 
 //GLOBAL VARIABLE DEFINITIONS
 
+let wpmText = document.getElementById("wpm");
 let timeElapsed;
 let startingTime;
 let currTime;
@@ -332,7 +337,6 @@ document.addEventListener("keydown", function(event) {
             letterCount = 0;
             if (wordCount === totalWords) {
                 // If the previous word was the last word in the text, clear the text
-                // todo: add a wpm calculator and show the wpm after the words were typed
                 // RESET THE TEXT AND ALL THE VARIABLES
                 clearWords();
                 removeKeyHighlight(prevLetter);

@@ -6,7 +6,7 @@ const TextSchema = new Schema({
     text: String
 });
 
-const TextBlob = mongoose.model('TextBlob', TextSchema, "Text");
+const TextBlob = mongoose.model('TextBlob', TextSchema, "text");
 module.exports = TextBlob
 
 
