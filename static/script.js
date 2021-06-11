@@ -1,19 +1,32 @@
-// LOCAL STORAGE
-averageWordsPerMinute = window.localStorage;
+// GLOBAL VARIABLES
 
-// PREVENT BROWSER SHORTCUT DEFAULTS
-window.onkeydown = function(e) {
-    if (e.code === "Backspace" && e.target === document.body){
-        e.preventDefault();
-    }else if(e.code === "Quote" && e.target === document.body){
-        e.preventDefault();
-    }
-}
+let speedText = document.getElementById("wpm");
+let accuracyText = document.getElementById("percentage")
+let timeElapsed;
+let startingTime;
+let currTime;
+let charactersTyped = 0;
+let charactersTyped3SecondsAgo = 0;
+let userActive = false;
+let speed;
+let accuracy;
+let totalLetters;
+let words;
+let wordCount;
+let letterCount;
+let strictLetterCount;
+let correctCount;
+let incorrectCount;
+let cursor;
+let currentLetter;
+let totalWords;
+let pressedKey;
+let prevLetter;
+let currWordLength;
 
-// ON WINDOW LOAD
-window.addEventListener('load', () => {
-    getText();
-})
+
+
+
 
 // FUNCTIONS
 
@@ -158,14 +171,24 @@ clearBackground = (cursor) => cursor.id = "clear";
 // _________________________________________________________________________________________
 
 
-
+// TIMING EVENTS
 
 // Updates the WPM display every second
 let timerId = setInterval(() => {
+
+    // Update WPM if user is active; otherwise do not update
     if (userActive === true) {
         //start tracking the speed
         speed = Math.round(((charactersTyped/5)/timeElapsed)).toString();
-        wpmText.innerText = speed;
+        if (speed !== "NaN") {
+            speedText.innerText = speed;
+        }
+    }
+
+    // Update accuracy every 1s
+    if (strictLetterCount > 0) {
+        accuracy = Math.round((correctCount/strictLetterCount)*100);
+        accuracyText.innerText = accuracy.toString();
     }
 }, 1000);
 
@@ -181,10 +204,10 @@ let checkActivity = setInterval(() => {
     }
 }, 3000);
 
+
 //SERVER CALLS
 
-// Make server call to get the text the user will type, loads the text into the html and dispatch an event
-//that the text has been loaded
+// GetText: Make server call to get the text, load the text into the html,dispatch event 'loadedText'
 const getText = async () => {
     const response = await fetch("/text");
     const myText = await response.text();
@@ -193,29 +216,6 @@ const getText = async () => {
     document.dispatchEvent(loadedText);
 }
 
-//GLOBAL VARIABLE DEFINITIONS
-
-let wpmText = document.getElementById("wpm");
-let timeElapsed;
-let startingTime;
-let currTime;
-let charactersTyped = 0;
-let charactersTyped3SecondsAgo = 0;
-let userActive = false;
-let speed;
-
-let totalLetters;
-let words;
-let wordCount;
-let letterCount;
-let correctCount;
-let incorrectCount;
-let cursor;
-let currentLetter;
-let totalWords;
-let pressedKey;
-let prevLetter;
-let currWordLength;
 
 //CUSTOM EVENTS
 
@@ -225,7 +225,22 @@ const loadedText = new Event('loadedText');
 // Event: user finished typing the current text
 const finishedTyping = new Event('finishedTyping');
 
+
 //EVENT LISTENERS
+
+// Prevent browser from triggering default keyboard shortcut behaviours
+window.onkeydown = function(e) {
+    if (e.code === "Backspace" && e.target === document.body){
+        e.preventDefault();
+    }else if(e.code === "Quote" && e.target === document.body){
+        e.preventDefault();
+    }
+}
+
+// Loads text into the text-box area on window load
+window.addEventListener('load', () => {
+    getText();
+})
 
 // Executed when the user finished typing
 document.addEventListener('finishedTyping', function() {
@@ -239,8 +254,17 @@ document.addEventListener('loadedText', function() {
     letterCount = 0;
 
     // Counter for tracking the number of correct vs incorrect characters typed
+    strictLetterCount = 0;
     correctCount = 0;
     incorrectCount = 0;
+
+    // Resetting the timer for speed calculation
+    startingTime = undefined;
+    userActive = false;
+
+    // Resetting the gauge
+    speedText.innerText = "-"
+    accuracyText.innerText = "-"
 
     //Cursor
     cursor = returnCursor(wordCount, letterCount);
@@ -330,17 +354,19 @@ document.addEventListener("keydown", function(event) {
             incorrectCount++;
         }
         letterCount++;
+        strictLetterCount++;
         charactersTyped++;
-        console.log(charactersTyped);
         if (letterCount === currWordLength) {
             wordCount++;
             letterCount = 0;
             if (wordCount === totalWords) {
                 // If the previous word was the last word in the text, clear the text
-                // RESET THE TEXT AND ALL THE VARIABLES
+                // and load another. Clear the starting time and characters typed so speed tracking
+                // is reset as well.
                 clearWords();
                 removeKeyHighlight(prevLetter);
                 wordCount = 0;
+                charactersTyped = 0;
                 document.dispatchEvent(finishedTyping);
                 return;
             }
