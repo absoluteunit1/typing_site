@@ -180,7 +180,7 @@ let timerId = setInterval(() => {
     if (userActive === true) {
         //start tracking the speed
         speed = Math.round(((charactersTyped/5)/timeElapsed)).toString();
-        if (speed !== "NaN") {
+        if (speed !== "NaN" && speed !== "0") {
             speedText.innerText = speed;
         }
     }
@@ -202,7 +202,7 @@ let checkActivity = setInterval(() => {
         startingTime = undefined;
         charactersTyped = 0;
     }
-}, 3000);
+}, 2000);
 
 
 //SERVER CALLS
@@ -252,6 +252,7 @@ document.addEventListener('loadedText', function() {
     words = document.getElementById("parent").children;
     wordCount = 0;
     letterCount = 0;
+    charactersTyped = 0;
 
     // Counter for tracking the number of correct vs incorrect characters typed
     strictLetterCount = 0;
@@ -365,8 +366,6 @@ document.addEventListener("keydown", function(event) {
                 // is reset as well.
                 clearWords();
                 removeKeyHighlight(prevLetter);
-                wordCount = 0;
-                charactersTyped = 0;
                 document.dispatchEvent(finishedTyping);
                 return;
             }
