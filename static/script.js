@@ -137,17 +137,17 @@ removeKeyHighlight = (prevLetter) => {
     let keyboardKey;
     if (whichShift(prevLetter) === undefined) {
          keyboardKey = document.getElementById(returnKeyId(prevLetter));
-         keyboardKey.style.backgroundColor = "#232946";
+         keyboardKey.style.backgroundColor = "#333";
      }else if(whichShift(prevLetter) === "LeftShift"){
         let leftShiftKey = document.getElementById("LeftShift");
         keyboardKey = document.getElementById(returnKeyId(prevLetter));
-        leftShiftKey.style.backgroundColor = "#232946";
-        keyboardKey.style.backgroundColor = "#232946";
+        leftShiftKey.style.backgroundColor = "#333";
+        keyboardKey.style.backgroundColor = "#333";
     }else{
         let rightShiftKey = document.getElementById("RightShift");
         keyboardKey = document.getElementById(returnKeyId(prevLetter));
-        rightShiftKey.style.backgroundColor = "#232946";
-        keyboardKey.style.backgroundColor = "#232946";
+        rightShiftKey.style.backgroundColor = "#333";
+        keyboardKey.style.backgroundColor = "#333";
     }
 }
 
