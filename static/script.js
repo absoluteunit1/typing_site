@@ -137,17 +137,17 @@ removeKeyHighlight = (prevLetter) => {
     let keyboardKey;
     if (whichShift(prevLetter) === undefined) {
          keyboardKey = document.getElementById(returnKeyId(prevLetter));
-         keyboardKey.style.backgroundColor = "#333";
+         keyboardKey.style.backgroundColor = "#232946";
      }else if(whichShift(prevLetter) === "LeftShift"){
         let leftShiftKey = document.getElementById("LeftShift");
         keyboardKey = document.getElementById(returnKeyId(prevLetter));
-        leftShiftKey.style.backgroundColor = "#333";
-        keyboardKey.style.backgroundColor = "#333";
+        leftShiftKey.style.backgroundColor = "#232946";
+        keyboardKey.style.backgroundColor = "#232946";
     }else{
         let rightShiftKey = document.getElementById("RightShift");
         keyboardKey = document.getElementById(returnKeyId(prevLetter));
-        rightShiftKey.style.backgroundColor = "#333";
-        keyboardKey.style.backgroundColor = "#333";
+        rightShiftKey.style.backgroundColor = "#232946";
+        keyboardKey.style.backgroundColor = "#232946";
     }
 }
 
@@ -174,7 +174,7 @@ clearBackground = (cursor) => cursor.id = "clear";
 // TIMING EVENTS
 
 // Updates the WPM display every second
-let timerId = setInterval(() => {
+timerId = setInterval(() => {
 
     // Update WPM if user is active; otherwise do not update
     if (userActive === true) {
@@ -193,7 +193,7 @@ let timerId = setInterval(() => {
 }, 1000);
 
 // Check if the user is actively typing; if not, reset the timer and characters typed
-let checkActivity = setInterval(() => {
+checkActivity = setInterval(() => {
     if (charactersTyped3SecondsAgo !== charactersTyped) {
         userActive = true;
         charactersTyped3SecondsAgo = charactersTyped;

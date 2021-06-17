@@ -51,7 +51,8 @@ span {
 /*Stats*/
 
 #gauge {
-    margin: 0 auto;
+	font-size: 3vh;
+    margin: 20px auto;
     width: 50%;
     text-align: center;
 }
@@ -102,22 +103,22 @@ span {
 
  /*Responsiveness */
 
-@media only screen and (max-width:1080px) {
-    #wordswrap {
-        width: 700px;
-        height: 400px;
-}
-}
+/*@media only screen and (max-width:1080px) {*/
+/*    #wordswrap {*/
+/*        width: 700px;*/
+/*        height: 400px;*/
+/*}*/
+/*}*/
 
-@media only screen and (max-width: 700px) {
-    #wordswrap {
-        width: 350px;
-        height: 300px;
-        margin-top: 25px;
+/*@media only screen and (max-width: 700px) {*/
+/*    #wordswrap {*/
+/*        width: 350px;*/
+/*        height: 300px;*/
+/*        margin-top: 25px;*/
 
-    }
+/*    }*/
 
-    h3 {
-        font-size: 1.3em;
-    }
-}
+/*    h3 {*/
+/*        font-keyboardSize: 1.3em;*/
+/*    }*/
+/*}*/
