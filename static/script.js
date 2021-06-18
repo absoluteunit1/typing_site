@@ -32,24 +32,22 @@ let currWordLength;
 
 // Putting text into html
 addWordsToLine = (word, lastWord = false) => {
-	let lines = document.getElementsByTagName("h3");
-	let line  = lines[lines.length - 1];
+	let textBox = document.getElementById("parent");
 	let wordWrapper = document.createElement("div");
 	wordWrapper.className = "wordwrap";
 	for (let i = 0; i < word.length; i++) {
 		let span = document.createElement("span");
-		let letter = document.createTextNode(word[i]);
-		span.appendChild(letter);
+		span.textContent = word[i];
 		wordWrapper.appendChild(span);
-		line.appendChild(wordWrapper);
+		textBox.appendChild(wordWrapper);
 	}
     if (!lastWord) {
-	    line.innerHTML += '<div class="wordwrap"><span> </span></div>';
+	    textBox.innerHTML += '<div class="wordwrap"><span> </span></div>';
     }
 }
 addWords = (arr) => {
 	let i = 0;
-	let line = document.createElement("h3");
+	let line = document.createElement("div");
 	line.id = "parent";
 	while (i !== arr.length) {
 		let wordsWrap = document.getElementById("wordswrap");
@@ -158,7 +156,9 @@ returnCursor = (wordCount, letterCount) => {
     }
 
 // Clears the text from the page
-clearWords = () => document.getElementById("wordswrap").innerHTML = "";
+clearWords = () => {
+    return document.getElementById("wordswrap").innerHTML = "";
+};
 
 //Cursor Functions for changing the cursor background
 cursorBackground = (cursor) => cursor.id = "cursor";
@@ -171,10 +171,10 @@ clearBackground = (cursor) => cursor.id = "clear";
 // _________________________________________________________________________________________
 
 
-// TIMING EVENTS
+// INTERVALS
 
 // Updates the WPM display every second
-timerId = setInterval(() => {
+setInterval(() => {
 
     // Update WPM if user is active; otherwise do not update
     if (userActive === true) {
@@ -193,7 +193,7 @@ timerId = setInterval(() => {
 }, 1000);
 
 // Check if the user is actively typing; if not, reset the timer and characters typed
-checkActivity = setInterval(() => {
+setInterval(() => {
     if (charactersTyped3SecondsAgo !== charactersTyped) {
         userActive = true;
         charactersTyped3SecondsAgo = charactersTyped;
@@ -272,7 +272,7 @@ document.addEventListener('loadedText', function() {
     cursorBackground(cursor)
 
     // Highlight the first character on the keyboard
-    currentLetter = words[wordCount].childNodes[letterCount].innerText;
+    currentLetter = words[wordCount].childNodes[letterCount].textContent;
     highlightKeyboardKey(currentLetter);
 
     currWordLength = words[wordCount].childElementCount;
@@ -282,7 +282,6 @@ document.addEventListener('loadedText', function() {
 // Executed when the user pressed a key
 document.addEventListener("keydown", function(event) {
         userActive = true;
-
         if (startingTime === undefined) {
             startingTime = new Date().getTime();
         }
