@@ -3,16 +3,20 @@ const mongoose = require('mongoose')
 const TextBlob = require('./models/Text')
 const app = new express()
 
+if (process.env.NODE_ENV === 'development') {
+    mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true})
+}
 
-mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true})
+if (process.env.NODE_ENV === 'production') {
+    mongoose.connect("mongodb+srv://typing_app_user1:YCeiNNbmePqJLjZz@typinggame.fxpm7.mongodb.net/test", {useNewUrlParser: true});
+}
 
 
 app.use(express.static('static'))
 
 //Queries the database with a random id and responds with a text
 app.get('/text', async(req, res) => {
-    let id = Math.floor(Math.random()*Math.floor(5)) + 1;
-    let textBlob = await TextBlob.findOne({"_id" : `${id}`});
+    let textBlob = await TextBlob.findOne({"id" : 1});
     res.send(textBlob.text)
 })
 
